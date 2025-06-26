@@ -2,7 +2,7 @@ const { MongooseError } = require('mongoose');
 const logger = require('./logger')
 const morgan = require('morgan')
 require('express-async-errors')
-const users = require('.././models/userSchema')
+const users = require('../models/userSchema')
 const jwt = require('jsonwebtoken')
 
 

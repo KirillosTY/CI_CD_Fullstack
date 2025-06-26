@@ -1,13 +1,13 @@
 const express = require('express')
-const config = require('./utils/config')
+const config = require('./utils/config.js')
 const app = express()
 const cors = require('cors')
 const middleware = require('./utils/middleware.js')
-const logger = require('./utils/logger')
+const logger = require('./utils/logger.js')
 const mongoose = require('mongoose')
-const router = require('./controller/router')
-const routeUser = require('./controller/routeUsers')    
-const routeLogin = require('./controller/login')
+const router = require('./controller/router.js')
+const routeUser = require('./controller/routeUsers.js')    
+const routeLogin = require('./controller/login.js')
 
 
 
@@ -29,7 +29,7 @@ app.use('/api/users',routeUser)
 app.use('/api/login', routeLogin)
 console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'test ') {
-  const testingRouter = require('./controller/testing')
+  const testingRouter = require('./controller/testing.js')
   app.use('/api/testing', testingRouter)
 }
 
