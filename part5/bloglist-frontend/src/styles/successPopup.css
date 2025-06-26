@@ -1,0 +1,11 @@
+.success {
+    color: green;
+    font-style: italic;
+    font-size: 30px;
+    border: 20px;
+    border-color: green;
+    padding: 20px;
+    text-size-adjust: 100%;
+  }
+  
+  
