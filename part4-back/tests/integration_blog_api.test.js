@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const { test, after, beforeEach, before, describe, beforeAll} = require('node:test')
+const { test, after, beforeEach, before, describe, } = require('node:test')
 const assert = require('node:assert')
 const app = require('../app')
 const { application } = require('express')
@@ -20,12 +20,6 @@ const {username,password} = {
 
     }
 
-beforeAll(async () => {
-  await mongoose.connect(process.env.TEST_MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-})
 
 after(async () => {
     await User.deleteMany({})
@@ -213,7 +207,7 @@ test('update by id should return 201 status', async () => {
 
 
     let newBlogList = (await api.get('/api/blogs')).body
-    console.log('newBlogList', newBlogList)
+ 
     const blogToUpdate = newBlogList[0]
     blogToUpdate.likes=100000000
     const idToUpdate = blogToUpdate.id 
