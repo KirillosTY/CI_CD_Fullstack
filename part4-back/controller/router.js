@@ -1,8 +1,9 @@
 const mailRouter = require('express').Router()
-const Blog = require('.././models/blogSchema')
+const Blog = require('../models/blogSchema.js')
 const { response } = require('../app')
-const users = require('.././models/userSchema')
+const users = require('../models/userSchema.js')
 const jwt = require('jsonwebtoken')
+const { update } = require('lodash')
 
 
 
@@ -47,7 +48,7 @@ mailRouter.delete('/:id', async (request, response)=> {
   const user = request.user
 
   const blogOwnerID = (await Blog.findById(request.params.id)).user.toString()
-  
+
   
   if(blogOwnerID === user.id){
     await Blog.findByIdAndDelete(request.params.id)
@@ -63,13 +64,19 @@ mailRouter.delete('/:id', async (request, response)=> {
 mailRouter.put('/:id', async (request, response) => {
   const updatedBlog = request.body;
 
-  const user = request.user  
+  const user = request.user
 
-  const updatedDBBlog = await Blog.findByIdAndUpdate(request.params.id, updatedBlog, {new:true}).populate('user',{username:1,name:1 })
+  const blogOwnerID = (await Blog.findById(request.params.id)).user.toString()
+
+  console.log('blogOwnerID', blogOwnerID, updatedBlog)
+  if(blogOwnerID !== user.id){
+    response.status(401).send({error: "Permission denied"})
+  } 
+  updatedBlog.user= updatedBlog.user.id
+  const updatedDBBlog = await Blog.findByIdAndUpdate(updatedBlog.id, updatedBlog, {new:true}).populate('user',{username:1,name:1,id:1 })
   
   response.json(updatedDBBlog)
 })
-
 
 
 module.exports = mailRouter

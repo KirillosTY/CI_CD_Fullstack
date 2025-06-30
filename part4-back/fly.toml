@@ -1,0 +1,28 @@
+# fly.toml app configuration file generated for blogisteriii on 2025-06-30T13:14:40+03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'blogisteriii'
+primary_region = 'arn'
+
+[build]
+
+[env]
+  MONGODB_URL = 'mongodb+srv://kirillostadrousattia:Mongoillaaan007@cluster0.egkdpl9.mongodb.net/BlogsWithUsers?retryWrites=true&w=majority&appName=Cluster0'
+  MONGODB_URL_TESTS = 'mongodb+srv://kirillostadrousattia:Mongoillaaan007@cluster0.egkdpl9.mongodb.net/test_BlogWithUsers?retryWrites=true&w=majority&appName=Cluster0'
+  PORT = '3001'
+  SECRET = 'wjdaiowjawudhieu2890u348192ue89u892377uw9audaw8uy2983u89u389u29eu82q9ue2q89'
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1

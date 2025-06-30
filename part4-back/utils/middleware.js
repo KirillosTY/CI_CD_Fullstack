@@ -2,7 +2,7 @@ const { MongooseError } = require('mongoose');
 const logger = require('./logger')
 const morgan = require('morgan')
 require('express-async-errors')
-const users = require('../models/userSchema')
+const users = require('../models/userSchema.js')
 const jwt = require('jsonwebtoken')
 
 
@@ -50,7 +50,7 @@ const tokenGetter = async (request, response, next) => {
 }
 
 const tokenUser = async(request, response, next) => {
-   
+    console.log('request.token', request.token)
     const userToken = jwt.verify(request.token, process.env.SECRET)
     const user = await users.findById(userToken.id)
     if(user){

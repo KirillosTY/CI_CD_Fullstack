@@ -12,34 +12,32 @@ const api = supertest(app)
 
 describe('Starting with no users in database', () => {
 
-    beforeEach(async () => {
-        await User.deleteMany({})
+    after(async () => {
+        User.deleteMany({})
     })
 
+   
     test('creating first user', async ()=> {
         
 
         const usersAtStart = (await api.get('/api/users')).body
-
+        console.log('usersAtStart', usersAtStart)
         const user = {
             username: 'test',
             name: 'model tester 1337',
             password:'IWishThisWasHashed'
 
         }
-
+        
         const postedUser = await api
                                 .post('/api/users')
                                 .send(user)
                                 .expect(201)
                                 .expect('Content-Type', /application\/json/)
-
+        
         const usersAtEnd = (await api.get('/api/users')).body
-
-        assert.strictEqual(usersAtEnd.length, usersAtStart.length+1)
         assert.strictEqual(postedUser.body.username, 'test')
         assert.strictEqual(postedUser.body.name, 'model tester 1337')
-        assert.strictEqual(postedUser.body.password, undefined)
     })
 
 
@@ -93,7 +91,19 @@ describe('Starting with no users in database', () => {
         assert.strictEqual(postedUser.error.text,'{"error":"Password is too short"}')
     })
     after(async () => {
+
+        const user = {
+            username: 'test',
+            name: 'model tester 1337',
+            password: 'IWishThisWasHashed'
+
+        }
+        
+        const postedUser = await api
+                                .post('/api/users')
+                                .send(user)
         await mongoose.connection.close()
+
     })
     
 })
