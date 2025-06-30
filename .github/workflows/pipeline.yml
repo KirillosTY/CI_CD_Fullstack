@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches: [main]
-    types: [opened, synchronize] #Without the 3 rows the events wont trigger on pull requests
+    types: [opened, synchronize]
 
 permissions: read-all
 
@@ -15,7 +15,7 @@ jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-22.04
     environment: basic
-    env:                           # 👈 move here
+    env:                          
       MONGODB_URL_TESTS: ${{ secrets.MONGODB_URL_TESTS }}
       SECRET: ${{ secrets.SECRET }}
       PORT: ${{ secrets.PORT }}
