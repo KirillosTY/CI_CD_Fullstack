@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const { test, after, beforeEach, before, describe } = require('node:test')
+const { test, after, beforeEach, before, describe, beforeAll} = require('node:test')
 const assert = require('node:assert')
 const app = require('../app')
 const { application } = require('express')
@@ -20,7 +20,12 @@ const {username,password} = {
 
     }
 
-
+beforeAll(async () => {
+  await mongoose.connect(process.env.TEST_MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+})
 
 after(async () => {
     await User.deleteMany({})
