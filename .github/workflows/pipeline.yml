@@ -23,17 +23,17 @@ jobs:
           node-version: '20'
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - name: Install dependencies 
-        run: npm install  
+      - name: Install dependencies fronted and backend
+        run: cd ./part4-back && npm install && cd ../part5-front && npm install  
       
-      - name: Check style
-        run: cd ../part5-front && npm run lint
+      - name: front style check
+        run:  npm run lint
+      - name: front tests
+        run: npm run test
       - name: building front
         run: npm run build:front
-      - name: run test & integration test
+      - name: run backend test & integration tests
         run: npm run test
-      - name: run frontend tests
-        run: cd ../part5-front && npm run test
       - name: deploy fly
       - run: npm run deploy
         if: ${{ github.event_name == 'push' }}
