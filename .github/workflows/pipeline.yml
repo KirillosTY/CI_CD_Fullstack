@@ -11,8 +11,10 @@ on:
 permissions: read-all
 
 jobs:
+  
   simple_deployment_pipeline:
     runs-on: ubuntu-22.04
+    environment: basic
     steps:
 
       - uses: actions/checkout@v4
