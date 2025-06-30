@@ -32,13 +32,12 @@ jobs:
         run: cd ./part5-front && npm run test
       - name: building front
         run: cd ./part4-back && npm run build:front
-        env:
-          MONGODB_URL_TESTS: ${{secrets.MONGODB_URL_TESTS}}
-          MONGODB_URL: ${{secrets.MONGODB_URL}}
-          SECRET: ${{secrets.SECRET}}
-          PORT: ${{secrets.PORT}}
       - name: run backend test & integration tests
         run: cd ./part4-back && npm run test
+        env:
+          MONGODB_URL_TESTS: ${{secrets.MONGODB_URL_TESTS}}
+          SECRET: ${{secrets.SECRET}}
+          PORT: ${{secrets.PORT}}
       - name: deploy fly
         run: cd ./part4-back && npm run deploy
         if: ${{ github.event_name == 'push' }}
