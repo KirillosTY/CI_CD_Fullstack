@@ -48,7 +48,51 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       
-      
+        - name: succesfully building
+        if: success()
+        uses: rjstone/discord-webhook-notify@v2
+
+        with: 
+          webhookUrl: ${{ secrets.disco_url }}
+          username: KirillosTY
+          avatarUrl: https://igormiranda.com.br/wp-content/uploads/2021/08/Rick-Astley-Rickroll-Never-Gonna-Give-You-Up.jpg
+          severity: info 
+          color: '#008000'
+          title: Build succesfull
+          description: |
+           **Repository**: [${{ github.repository }}](https://github.com/${{ github.repository }})
+            **Workflow**: ${{ github.workflow }}
+            **Run Number**: ${{ github.run_number }}
+            **Run ID**: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            **Event**: ${{ github.event_name }}
+            **Actor**: ${{ github.actor }}
+            **Ref**: ${{ github.ref }}
+            **Commit**: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            **Job**: ${{ github.job }}
+      - name: build failure
+        if: failure()
+        uses: rjstone/discord-webhook-notify@v2
+
+        with: 
+          webhookUrl: ${{ secrets.disco_url }}
+          username: KirillosTY
+          avatarUrl: https://igormiranda.com.br/wp-content/uploads/2021/08/Rick-Astley-Rickroll-Never-Gonna-Give-You-Up.jpg
+          severity: info 
+          color: '#FF0000'
+          title: Deployment failure
+          description: |
+            **Repository**: [${{ github.repository }}](https://github.com/${{ github.repository }})
+            **Workflow**: ${{ github.workflow }}
+            **Run Number**: ${{ github.run_number }}
+            **Run ID**: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            **Event**: ${{ github.event_name }}
+            **Actor**: ${{ github.actor }}
+            **Ref**: ${{ github.ref }}
+            **Commit**: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            **Job**: ${{ github.job }}
+
+
+
     
 
 
