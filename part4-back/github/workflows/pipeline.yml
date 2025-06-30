@@ -1,0 +1,60 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize] #Without the 3 rows the events wont trigger on pull requests
+
+permissions: read-all
+
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-22.04
+    steps:
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - uses: rjstone/discord-webhook-notify@v2
+
+        with:
+          node-version: '20'
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Install dependencies 
+        run: npm install  
+      
+      - name: Check style
+        run: cd ../part5-front && npm run lint
+      - name: building front
+        run: npm run build:front
+      - name: run test & integration test
+        run: npm run test
+      - name: run frontend tests
+        run: cd ../part5-front && npm run test
+      - name: deploy fly
+      - run: npm run deploy
+        if: ${{ github.event_name == 'push' }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      
+      
+    
+
+
+  tag_release:  
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }}
+        uses: anothrNick/github-tag-action@1.73.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+ 

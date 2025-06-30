@@ -11,7 +11,7 @@ primary_region = 'arn'
 [env]
   MONGODB_URL = 'mongodb+srv://kirillostadrousattia:Mongoillaaan007@cluster0.egkdpl9.mongodb.net/BlogsWithUsers?retryWrites=true&w=majority&appName=Cluster0'
   MONGODB_URL_TESTS = 'mongodb+srv://kirillostadrousattia:Mongoillaaan007@cluster0.egkdpl9.mongodb.net/test_BlogWithUsers?retryWrites=true&w=majority&appName=Cluster0'
-  PORT = '3001'
+  PORT = '3000'
   SECRET = 'wjdaiowjawudhieu2890u348192ue89u892377uw9audaw8uy2983u89u389u29eu82q9ue2q89'
 
 [http_service]

@@ -16,6 +16,7 @@ mongoose.set('strictQuery',false)
 logger.info(`Connection url: ${config.MURL}`)
 const mongoUrl = config.MURL
 mongoose.connect(mongoUrl)
+app.use(express.static('dist'));
 
 app.use(cors())
 app.use(express.json())

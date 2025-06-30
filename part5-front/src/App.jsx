@@ -10,17 +10,17 @@ import Login from './components/Login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
-  const [user, setUser] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState('')
 
 
   const [successMessage, setSuccessMessage]= useState('')
   const [failureMessage, setfailureMessage]= useState('')
 
- 
 
-  useEffect(()=> {
+
+  useEffect(() => {
 
     const userToJSON = window.localStorage.getItem('loggedInUser')
     console.log('Käydään ja ')
@@ -31,13 +31,13 @@ const App = () => {
     } else {
       console.log('nullia')
     }
-  },[]) 
+  },[])
 
   useEffect(() => {
-    blogService.getAll(user).then(blogs =>{
+    blogService.getAll(user).then(blogs => {
       setBlogs( blogs )
     }
-    )  
+    )
   }, [user])
 
   const handleLogin = (event) =>  {
@@ -45,21 +45,21 @@ const App = () => {
     console.log('Logging in, please be patient!')
 
     try {
-      loginService.login({username,password}).then((response)=>{
-      
+      loginService.login({ username,password }).then((response) => {
+
         const userLogged = response
         window.localStorage.setItem('loggedInUser',JSON.stringify(userLogged))
         setUsername('')
         setPassword('')
         blogService.setToken(userLogged.token)
-        
+
         setUser(userLogged)
 
-      
-      }).catch(()=>{
+
+      }).catch(() => {
         setfailureMessage('Wrong username or password, probably')
-        
-        setTimeout(()=>{
+
+        setTimeout(() => {
           setfailureMessage('')
         }, 5000)
       })
@@ -67,14 +67,14 @@ const App = () => {
       console.log(exception.message)
       setfailureMessage('Wrong username or password, probably')
 
-      setTimeout(()=>{
+      setTimeout(() => {
         setfailureMessage('')
       }, 5000)
     }
-  
+
   }
 
-  const handleLogout = (event) =>{
+  const handleLogout = (event) => {
     event.preventDefault()
     window.localStorage.clear()
     setUsername('')
@@ -82,84 +82,85 @@ const App = () => {
     setUser('')
   }
 
-  const handleCreation = ({blog}) =>{
+  const handleCreation = ({ blog }) => {
 
     blogService.create(blog).then((response) => {
       console.log(response)
       response.user = user
       setBlogs(blogs.concat(response))
       setSuccessMessage(`Created succesfully blog: ${blog.title} by ${blog.author}`)
-      setTimeout(()=> {
+      setTimeout(() => {
         setSuccessMessage('')
       },5000)
-     
+
     })
 
   }
 
   const handleUpvote = (blog)  => {
     blogService.put(blog).then((response) => {
-      response.user = user;
+      response.user = user
       setBlogs(blogs.map((blogOnList) => blogOnList.id !== blog.id ? blogOnList: response))
-     
+
       setSuccessMessage(`${blog.title} by ${blog.author} successfully upvoted`)
-      setTimeout(()=> {
+      setTimeout(() => {
         setSuccessMessage('')
       },5000)
     })
 
-    
+
 
   }
 
   const removeBlog = (blog) => {
-      blogService.removeBlog(blog).then((response) => {
+    blogService.removeBlog(blog).then((response) => {
 
-        blogService.getAll(user).then(blogs =>{
+      blogService.getAll(user).then(blogs => {
         setBlogs( blogs )
-        })
-
-        setSuccessMessage(`${blog.title} by ${blog.author} successfully deleted`)
-        setTimeout(()=> {
-          setSuccessMessage('')
-        },5000)
       })
-    
+
+      setSuccessMessage(`${blog.title} by ${blog.author} successfully deleted`)
+      setTimeout(() => {
+        setSuccessMessage('')
+      },5000)
+    })
+
   }
 
 
-  
-const updateUsername = (event) => {
-  event.preventDefault()
-  setUsername(event.target.value)
-}
 
-const updatePassword = (event) => {
-  event.preventDefault()
-  setPassword(event.target.value)
-}
- 
+  const updateUsername = (event) => {
+    event.preventDefault()
+    setUsername(event.target.value)
+  }
+
+  const updatePassword = (event) => {
+    event.preventDefault()
+    setPassword(event.target.value)
+  }
+
+  console.log('blogs', blogs)
 
   if (user === '') {
     return (
       <div>
         <h2>Log in to application</h2>
         <FailureMessage failureMessage = {failureMessage}></FailureMessage>
-          <Login 
-          submit={handleLogin} 
+        <Login
+          submit={handleLogin}
           username={username}
           password={password}
           setUsername={updateUsername}
           setPassword= {updatePassword}
-          />
-       
+        />
+
       </div>
     )
   }
 
   return (
     <div>
-    
+
       <h1>Blogs</h1>
       <SuccessMessage successMessage = {successMessage}></SuccessMessage>
 
@@ -167,12 +168,12 @@ const updatePassword = (event) => {
       <h2></h2>
       <Togglable  buttonLabel="new Blog">
         <CreateBlog handleCreation= {handleCreation}></CreateBlog>
-      </Togglable>  
+      </Togglable>
 
       <ul >
-        {blogs.sort((first,second) => second.likes - first.likes).map(blog =>
-        <Blog key={blog.id}  blog={blog} 
-        updateUpvote={handleUpvote} removeBlog={removeBlog}  user={user}/>)}
+        {blogs.length? blogs.sort((first,second) => second.likes - first.likes).map(blog =>
+          <Blog key={blog.id}  blog={blog}
+            updateUpvote={handleUpvote} removeBlog={removeBlog}  user={user}/>): <div>No blogs yet</div>}
       </ul>
     </div>
   )

@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import blogStyles from '.././styles/blogs.css?inline'
 
@@ -22,7 +23,7 @@ const Blog = ({ blog, updateUpvote, removeBlog, user }) => {
       'likes': blog.likes+1,
       'url': blog.url,
       'id':blog.id,
-      'user':blog.user.id
+      'user':blog.user
     }
     updateUpvote(blogCreated)
 

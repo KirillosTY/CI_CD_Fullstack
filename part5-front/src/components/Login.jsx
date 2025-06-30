@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react';
+import React from 'react'
 
 
 const Login  = ({ username,password,setUsername,setPassword,submit }) => {
@@ -15,7 +15,7 @@ const Login  = ({ username,password,setUsername,setPassword,submit }) => {
           onChange={setUsername}
         />
       </div>
- 
+
       <div>
         Password: <input
           data-testid='password'
@@ -27,7 +27,7 @@ const Login  = ({ username,password,setUsername,setPassword,submit }) => {
       </div>
       <button data-testid='login' type="submit">login</button>
     </form>
-  
+
   )
 
 }
