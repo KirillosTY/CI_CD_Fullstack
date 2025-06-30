@@ -38,6 +38,24 @@ jobs:
         run: cd ./part5-front && npm run test
       - name: building front
         run: cd ./part4-back && npm run build:front
+      - name: Check secrets
+        run: |
+          echo "NODE_ENV is set to: $NODE_ENV"
+          if [ -z "$MONGODB_URL_TESTS" ]; then
+            echo "❌ MONGODB_URL_TESTS is EMPTY"; exit 1
+          else
+            echo "✅ MONGODB_URL_TESTS is present"
+          fi
+          if [ -z "$SECRET" ]; then
+            echo "❌ SECRET is EMPTY"; exit 1
+          else
+            echo "✅ SECRET is present"
+          fi
+          if [ -z "$PORT" ]; then
+            echo "❌ PORT is EMPTY"; exit 1
+          else
+            echo "✅ PORT is present"
+          fi
       - name: run backend test & integration tests
         run: cd ./part4-back && npm run test
         env:
