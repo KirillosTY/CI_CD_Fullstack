@@ -31,6 +31,7 @@ before( async () =>{
 
     await mongoose.connection.close()
     const mongoUrl = config.MURL
+    console.log('config.MURL', config.MURL)
     await mongoose.connect(mongoUrl)
     await User.deleteMany({})
 
