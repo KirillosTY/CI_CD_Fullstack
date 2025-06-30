@@ -43,7 +43,7 @@ jobs:
         env:
           NODE_ENV: "test "
       - name: deploy fly
-        run: flyctl deploy --remote-only
+        run: cd ./part4-back && flyctl deploy --remote-only
         if: ${{ github.event_name == 'push' }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
