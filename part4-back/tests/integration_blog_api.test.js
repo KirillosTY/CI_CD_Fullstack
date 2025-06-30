@@ -8,7 +8,7 @@ const { application } = require('express')
 const Blog = require('../models/blogSchema')
 const { STATUS_CODES } = require('node:http')
 const User =require('../models/userSchema')
-
+const config = require("../utils/config.js")
 
 
 const api = supertest.agent(app)
@@ -28,6 +28,10 @@ after(async () => {
 
 
 before( async () =>{
+
+    await mongoose.connection.close()
+    const mongoUrl = config.MURL
+    await mongoose.connect(mongoUrl)
     await User.deleteMany({})
 
     const userToCreate = {
