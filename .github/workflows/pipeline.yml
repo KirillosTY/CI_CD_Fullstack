@@ -44,7 +44,7 @@ jobs:
           if [ -z "$MONGODB_URL_TESTS" ]; then
             echo "❌ MONGODB_URL_TESTS is EMPTY"; exit 1
           else
-            echo "✅ MONGODB_URL_TESTS is present"
+            echo "✅ $MONGODB_URL_TESTS is present"
           fi
           if [ -z "$SECRET" ]; then
             echo "❌ SECRET is EMPTY"; exit 1
