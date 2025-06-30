@@ -8,7 +8,6 @@ const { application } = require('express')
 const Blog = require('../models/blogSchema')
 const { STATUS_CODES } = require('node:http')
 const User =require('../models/userSchema')
-const config = require('../utils/config.js')
 
 
 
@@ -29,13 +28,9 @@ after(async () => {
 
 
 before( async () =>{
+    await User.deleteMany({})
 
-    await mongoose.connection.close()
-    await mongoose.connect(config.MURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-    await mongoose.connect(pro const userToCreate = {
+    const userToCreate = {
             username: 'testi',
             name: 'model tester 1337',
             password:'IWishThisWasHashed'
