@@ -15,6 +15,10 @@ jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-22.04
     environment: basic
+    env:                           # 👈 move here
+      MONGODB_URL_TESTS: ${{ secrets.MONGODB_URL_TESTS }}
+      SECRET: ${{ secrets.SECRET }}
+      PORT: ${{ secrets.PORT }}
     steps:
 
       - uses: actions/checkout@v4
@@ -37,9 +41,7 @@ jobs:
       - name: run backend test & integration tests
         run: cd ./part4-back && npm run test
         env:
-          MONGODB_URL_TESTS: ${{secrets.MONGODB_URL_TESTS}}
-          SECRET: ${{secrets.SECRET}}
-          PORT: ${{secrets.PORT}}
+          NODE_ENV: "test "
       - name: deploy fly
         run: cd ./part4-back && npm run deploy
         if: ${{ github.event_name == 'push' }}
