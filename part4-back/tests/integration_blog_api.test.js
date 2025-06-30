@@ -35,7 +35,13 @@ before( async () =>{
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
+    await mongoose.connect(pro const userToCreate = {
+            username: 'testi',
+            name: 'model tester 1337',
+            password:'IWishThisWasHashed'
 
+        }
+        
     const postedUser = (await api
                                 .post('/api/users')
                                 .send(userToCreate)
