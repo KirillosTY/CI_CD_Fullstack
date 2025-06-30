@@ -32,6 +32,13 @@ jobs:
         run: cd ./part5-front && npm run test
       - name: building front
         run: cd ./part4-back && npm run build:front
+      - name: Check MongoDB connection
+        run: |
+          echo "Testing DB connection"
+          mongosh "${{ secrets.MONGODB_URL_TESTS }}" --eval "db.stats()"
+        env:
+          MONGODB_URL_TESTS: ${{ secrets.MONGODB_URL_TESTS }}
+
       - name: run backend test & integration tests
         run: cd ./part4-back && npm run test
         env:
